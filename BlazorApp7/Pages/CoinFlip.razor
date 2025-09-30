@@ -1,0 +1,32 @@
+﻿@page "/coin"
+
+<h3>Kron / Plat</h3>
+
+<p class="result">@display</p>
+
+<div class="buttons">
+	<button class="btn btn-primary" @onclick="Flip">Kast</button>
+	<button class="btn btn-secondary" @onclick="Reset">Nulstil</button>
+</div>
+
+<p>Statistik: Kron @heads – Plat @tails</p>
+
+@code {
+	private string? last;
+	private int heads, tails;
+	private string display => last is null ? "Tryk 'Kast' for at starte" : $" {last}";
+
+	private void Flip()
+	{
+		bool kron = Random.Shared.Next(0, 2) == 0;
+		last = kron ? "Kron" : "Plat";
+		if (kron) heads++; else tails++;
+	}
+	private void Reset()
+	{
+		last = null;
+		heads = tails = 0;
+	}
+}
+
+	
