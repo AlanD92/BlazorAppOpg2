@@ -1,0 +1,18 @@
+﻿@page "/counter"
+
+<h3>Tæller</h3>
+
+<p>Aktuel værdi: @currentCount</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Klik mig</button>
+
+@code {
+	[Parameter] public int Increment { get; set; } = 1; // NY
+
+	private int currentCount = 0;
+
+	private void IncrementCount()
+	{
+		currentCount += Increment;
+	}
+}

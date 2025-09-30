@@ -1,0 +1,45 @@
+﻿@page "/todo"
+
+<h3>Todo</h3>
+
+<input class="form-control" placeholder="Ny opgave..." @bind="newTodo" @onkeydown="@OnKeyDown" />
+<button class="btn btn-primary mt-2" @onclick="AddTodo">Tilføj</button>
+
+<ul class="todo-list mt-3">
+	@foreach (var item in items)
+	{
+		<li class="todo-item">
+			<input type="checkbox" @bind="item.IsDone" />
+			<span class="@((item.IsDone ? "done" : ""))">@item.Title</span>
+		</li>
+	}
+</ul>
+
+@code {
+	private string? newTodo;
+	private List<TodoItem> items = new()
+	{
+		new TodoItem{ Title="Lær Blazor", IsDone=false },
+		new TodoItem{ Title="Byg en component", IsDone=true }
+	};
+
+	private void AddTodo()
+	{
+		if (!string.IsNullOrWhiteSpace(newTodo))
+		{
+			items.Add(new TodoItem{ Title = newTodo.Trim(), IsDone = false });
+			newTodo = "";
+		}
+	}
+
+	private void OnKeyDown(KeyboardEventArgs e)
+	{
+		if (e.Key == "Enter") AddTodo();
+	}
+
+	private class TodoItem
+	{
+		public string Title { get; set; } = "";
+		public bool IsDone { get; set; }
+	}
+}

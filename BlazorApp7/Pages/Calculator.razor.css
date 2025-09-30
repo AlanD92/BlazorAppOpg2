@@ -1,0 +1,19 @@
+﻿
+    .calculator
+
+{
+    max-width: 420px;
+}
+
+.calculator .field {
+    margin-bottom: 1rem; /* afstand mellem felter */
+}
+
+.calculator .buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem; /* afstand mellem knapper */
+    margin-top: .5rem; /* afstand fra felter til knapper */
+}
+
+

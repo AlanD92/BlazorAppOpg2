@@ -1,0 +1,50 @@
+﻿@page "/mynote"
+@using Blazored.LocalStorage
+@inject ILocalStorageService LocalStorage
+
+<h3>Min note</h3>
+
+<textarea class="form-control" rows="6" @bind="note"></textarea>
+
+<div class="mt-2 d-flex gap-2">
+	<button class="btn btn-primary" @onclick="Gem">Gem</button>
+	<button class="btn btn-secondary" @onclick="Hent">Hent</button>
+	<button class="btn btn-danger" @onclick="Slet">Slet</button>
+</div>
+
+@if (!string.IsNullOrWhiteSpace(status))
+{
+	<p class="mt-3"><em>@status</em></p>
+}
+
+@code {
+	private const string Key = "min-note";
+	private string? note;
+	private string? status;
+
+	protected override async Task OnInitializedAsync()
+	{
+		note = await LocalStorage.GetItemAsStringAsync(Key);
+		if (!string.IsNullOrEmpty(note))
+			status = "Note hentet fra localStorage.";
+	}
+
+	private async Task Gem()
+	{
+		await LocalStorage.SetItemAsStringAsync(Key, note ?? "");
+		status = "Note gemt.";
+	}
+
+	private async Task Hent()
+	{
+		note = await LocalStorage.GetItemAsStringAsync(Key);
+		status = string.IsNullOrEmpty(note) ? "Ingen note fundet." : "Note hentet.";
+	}
+
+	private async Task Slet()
+	{
+		await LocalStorage.RemoveItemAsync(Key);
+		note = string.Empty;
+		status = "Note slettet.";
+	}
+}
