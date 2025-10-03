@@ -1,0 +1,127 @@
+﻿@page "/productpage"
+
+<h3 class="mb-3">Add Product</h3>
+
+<EditForm EditContext="@EditContext" class="product-form"
+          OnValidSubmit="@HandleValidSubmit"
+          OnInvalidSubmit="@HandleInvalidSubmit">
+
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-field">
+        <label for="Name">Name</label>
+        <InputText id="Name" @bind-Value="ProductModel.Name" class="form-control" />
+        <ValidationMessage For="@(() => ProductModel.Name)" />
+    </div>
+
+    <div class="form-field">
+        <label for="Price">Price</label>
+        <InputNumber id="Price" @bind-Value="ProductModel.Price" class="form-control" />
+        <ValidationMessage For="@(() => ProductModel.Price)" />
+    </div>
+
+    <div class="form-field">
+        <label for="PublishedDate">Published Date</label>
+        <InputDate id="PublishedDate" @bind-Value="ProductModel.PublishedDate" class="form-control" />
+    </div>
+
+    <div class="form-field">
+        <label for="Description">Description</label>
+        <InputTextArea id="Description" @bind-Value="ProductModel.Description" class="form-control" />
+    </div>
+
+    <div class="form-field">
+        <label for="Materiale">Materiale</label>
+        <InputSelect id="Materiale" @bind-Value="ProductModel.Materiale" class="form-control">
+            @foreach (var m in ProductMateriale)
+            {
+                <option value="@m">@m</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div class="form-field">
+        <div class="form-check">
+            <InputCheckbox id="IsPublished" @bind-Value="ProductModel.IsPublished" class="form-check-input" />
+            <label class="form-check-label" for="IsPublished">Published</label>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-outline-secondary" @onclick="ClearProducts">Clear list</button>
+    </div>
+</EditForm>
+
+<hr />
+
+<h5>Products</h5>
+
+@if (ProductList.Count == 0)
+{
+    <p><em>Ingen produkter endnu…</em></p>
+}
+else
+{
+    <ol class="mt-2">
+        @foreach (var item in ProductList)
+        {
+            <li><p>@item</p></li>  @* udskriver via ToString() *@
+        }
+    </ol>
+
+    @* Når dette virker, kan du skifte til:
+       <ol class="mt-2">
+           @foreach (var item in ProductList)
+           {
+               <li class="mb-2"><RenderProduct product="@item" /></li>
+           }
+       </ol>
+    *@
+}
+
+@code {
+    // Model + EditContext
+    private Product ProductModel = new();
+    private EditContext EditContext = default!;
+
+    // Liste (Opgave 2)
+    private readonly List<Product> ProductList = new();
+
+    // Dropdown (Opgave 3)
+    private readonly string[] ProductMateriale = { "Træ", "Plastik", "Metal" };
+
+    protected override void OnInitialized()
+    {
+        // VIGTIGT: initialiser EditContext
+        EditContext = new EditContext(ProductModel);
+
+        // God default til dropdown (Opgave 3 step 5)
+        ProductModel.Materiale = ProductMateriale[0];
+    }
+
+    private void HandleValidSubmit()
+    {
+        Console.WriteLine("HandleValidSubmit Called...");
+
+        ProductList.Add(ProductModel);
+
+        // Nulstil form og bevar default
+        ProductModel = new Product();
+        ProductModel.Materiale = ProductMateriale[0];
+
+        // Ny EditContext til den nye model
+        EditContext = new EditContext(ProductModel);
+    }
+
+    private void HandleInvalidSubmit()
+    {
+        Console.WriteLine("HandleInvalidSubmit Called...");
+    }
+
+    private void ClearProducts()
+    {
+        ProductList.Clear();
+    }
+}

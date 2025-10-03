@@ -112,3 +112,27 @@ code {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
     text-align: start;
 }
+
+/* Simpel, jordnær form-styling */
+.product-form {
+    max-width: 640px; /* gør formen smallere så den er nemmere at læse */
+}
+
+    .product-form .form-field {
+        margin-bottom: 14px; /* luft mellem felter */
+    }
+
+    .product-form label {
+        display: block;
+        margin-bottom: 6px; /* luft mellem label og felt */
+    }
+
+    .product-form textarea {
+        min-height: 90px; /* lidt højere textarea */
+    }
+
+    .product-form .actions {
+        display: flex;
+        gap: 10px; /* luft mellem knapper */
+        margin-top: 6px;
+    }
