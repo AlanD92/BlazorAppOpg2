@@ -1,4 +1,5 @@
-﻿@page "/productpage"
+﻿
+@page "/productpage"
 
 <h3 class="mb-3">Add Product</h3>
 
@@ -58,6 +59,9 @@
 
 <h5>Products</h5>
 
+<p>Antal i liste: @ProductList.Count</p>
+
+
 @if (ProductList.Count == 0)
 {
     <p><em>Ingen produkter endnu…</em></p>
@@ -67,18 +71,12 @@ else
     <ol class="mt-2">
         @foreach (var item in ProductList)
         {
-            <li><p>@item</p></li>  @* udskriver via ToString() *@
+            <li class="mb-2">
+                        <RenderProduct product="@item" />
+            </li>
         }
     </ol>
 
-    @* Når dette virker, kan du skifte til:
-       <ol class="mt-2">
-           @foreach (var item in ProductList)
-           {
-               <li class="mb-2"><RenderProduct product="@item" /></li>
-           }
-       </ol>
-    *@
 }
 
 @code {

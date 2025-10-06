@@ -136,3 +136,9 @@ code {
         gap: 10px; /* luft mellem knapper */
         margin-top: 6px;
     }
+
+.product-line {
+    white-space: nowrap;
+    margin-bottom: 6px;
+}
+

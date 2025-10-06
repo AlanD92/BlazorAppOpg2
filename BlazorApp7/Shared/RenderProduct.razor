@@ -1,0 +1,22 @@
+﻿@using BlazorApp7.Client.Models
+
+<div class="product-line">
+    @if (product is null)
+    {
+        <span style="color:red">[RenderProduct] product == null</span>
+    }
+    else
+    {
+        <span>
+            <b>@(product.Name ?? "")</b> — <u>@(product.Materiale ?? "")</u> |
+            Koster: <b>@($"{product.Price:0.00} DKK")</b> |
+            Status: @(product.IsPublished ? "Published" : "Draft") |
+            Dato: @product.PublishedDate.ToString("dd.MM.yyyy") |
+            @(product.Description ?? "")
+        </span>
+    }
+</div>
+
+@code {
+    [Parameter] public Product product { get; set; } = default!;
+}

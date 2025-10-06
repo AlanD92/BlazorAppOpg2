@@ -7,7 +7,7 @@ namespace BlazorApp7.Client.Models
     {
         public int Id { get; set; }
 
-        // Validering som i guiden
+        // Validering
         [Required]
         [StringLength(50, ErrorMessage = "Name must be less than 50 characters.")]
         public string Name { get; set; } = string.Empty;
